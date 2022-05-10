@@ -161,7 +161,7 @@ public class Summary_graph : MonoBehaviour
 }
 
 ```
-## 4. 작업 
+## 4. 작업 결과
 
 
 https://user-images.githubusercontent.com/73912947/167557068-972ba7dd-538b-442d-9f65-bee20e5d827c.mp4
