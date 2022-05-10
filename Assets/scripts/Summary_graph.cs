@@ -9,8 +9,6 @@ public class Summary_graph : MonoBehaviour
     public GameObject instance;
     public GameObject obj;
 
-    private bool isActive = false;
-
     public float value;
     public float minValue;
     public float maxValue;
@@ -20,6 +18,8 @@ public class Summary_graph : MonoBehaviour
     private float rate;
     private float spec;
     private float y_plus;
+    private float target;
+    private Coroutine moveRoutine = null;
 
     public enum DIR { X, x, Z, z };
     // direction : X = +x, x = -x, Z = +z, z = -z
@@ -32,7 +32,6 @@ public class Summary_graph : MonoBehaviour
     void Update()
     {
         SetGraphEnable(true);
-        StartCoroutine(GraphMove());
     }
 
     public void SetMinMax(float minValue, float maxValue)
@@ -58,7 +57,6 @@ public class Summary_graph : MonoBehaviour
 
         if (!instance)
             instance = Instantiate(graph);
-
 
         Transform g_transform = instance.GetComponent<Transform>();
         Transform o_transform = obj.GetComponent<Transform>();
@@ -108,7 +106,11 @@ public class Summary_graph : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 Debug.Log("Left-Clicked");
-                DrawGraph(Random.Range(0, 101), 2, DIR.x);
+
+                if(moveRoutine != null)
+                    StopCoroutine(moveRoutine);
+
+                moveRoutine = StartCoroutine(GraphMove(Random.Range(0, 101), 2, DIR.X));
             }
         }
 
@@ -127,16 +129,24 @@ public class Summary_graph : MonoBehaviour
         }
 
     }
-
-    IEnumerator GraphMove()
+    IEnumerator GraphMove(float target, float distance, DIR direction)
     {
-
-        //graph가 minvalue -> maxvalue 까지 y_pos이 증가하도록
-        for (float i = minValue; i < maxValue; i++)
+        //증감 확인
+        if (target - value > 0)
         {
-            //여기서 i가 instance의 new y_pos이 되어야하고 
-            //y가 +로 증가될수 있도록 한다.
-            yield return new WaitForSeconds(.1f);
+            for (float i = value; i < target + 1; i++)
+            {
+                DrawGraph(i, distance, direction);
+                yield return 0;
+            }
         }
+        else if (target - value < 0)
+        {
+            for (float i = value; i > target + 1; i--)
+            {
+                DrawGraph(i, distance, direction);
+                yield return 0;
+            }
+        }    
     }
 }
