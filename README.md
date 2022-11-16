@@ -3,7 +3,7 @@ Summary_Graph
 ## 1. 작업자
 @Osongpodo
 ## 2. 작업 개요
-새만금 Scene에 위치한 Clickable Object 옆에 요약 그래프를 그리는 기능 구현
+Clickable Object 옆에 요약 그래프를 그리는 기능 구현
 ![165900637-c49c5ece-1db4-4914-bcf2-f0dfa561e6c1](https://user-images.githubusercontent.com/73912947/167556893-e90af123-6444-446d-ba5b-e9db313beefe.png)
 ## 3. 작업 내용
 ```c#
